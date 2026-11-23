@@ -1,0 +1,254 @@
+---
+title: "Optimización de Cadenas de Colaboración Musical en Spotify"
+author: "Laura López, Candela Hebles y Lucía Rodríguez"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: true
+    code-fold: true
+    code-summary: "Mostrar código"
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Preparación de los datos
+
+El conjunto de datos empleado contiene aproximadamente 114.000 canciones obtenidas de Spotify. Para construir la red de colaboraciones fue necesario realizar un proceso previo de limpieza y transformación de los datos.
+
+### Selección de variables
+
+De todas las variables disponibles en el conjunto de datos se utilizó principalmente la columna 'artists', que identifica los artistas participantes en cada canción.
+
+### Tratamientro de colaboraciones
+
+Se observó que los artistas colaboradores aparecen separados mediante el carácter ";" dentro de la columna `artists`.
+
+Por ejemplo:
+
+- Geo
+
+- Ben Woodward
+
+- Ingrid Michaelson;ZAYN
+
+Por ello, cada registro fue dividido utilizando dicho separador para identificar correctamente a todos los artistas participantes en una canción.
+
+### Construcción de las parejas de colaboración
+
+Una vez identificados los artistas de cada canción, se generaron todas las parejas posibles de colaboradores.
+
+Si una canción contiene los artistas:
+
+A;B;C
+
+se generan las colaboraciones:
+
+- A-B
+
+- A-C
+
+- B-C
+
+Posteriormente se contó el número total de colaboraciones entre cada pareja de artistas.
+
+### Implementación
+```{python}
+import pandas as pd
+import networkx as nx
+from itertools import combinations
+from collections import defaultdict
+
+df = pd.read_csv("spotify-tracks-dataset-detailed.csv")
+df.head()
+```
+```{python}
+colaboraciones = defaultdict(int)
+
+for artistas in df["artists"].dropna():
+
+    lista = [a.strip() for a in str(artistas).split(";")]
+
+    lista = list(set(lista))
+
+    if len(lista) < 2:
+        continue
+
+    for a, b in combinations(sorted(lista), 2):
+        colaboraciones[(a, b)] += 1
+
+print("Número de parejas:", len(colaboraciones))
+```
+## Modelización del problema
+
+El objetivo del proyecto es proponer nuevos duetos entre artistas a partir de las colaboraciones existentes en Spotify. Para ello, el problema se divide en dos fases complementarias.
+
+En una primera fase se analiza la red de colaboraciones para medir la cercanía entre artistas. En una segunda fase se seleccionan las parejas finales de artistas que formarían los nuevos duetos. Esta división permite distinguir entre el análisis de la red existente y la optimización de las recomendaciones finales
+
+### Modelo 1: Medición de cercanía mediante caminos mínimos
+
+El primer modelo tiene como objetivo estimar qué tan próximos se encuentran dos artistas dentro de la red de colaboraciones musicales.
+
+#### Construcción del grafo
+
+Se define un grafo no dirigido $G=(V,E)$:
+
+- Cada nodo representa un artista.
+
+- Existe una arista entre dos artistas si han participado conjuntamente en al menos una canción.
+
+- El peso de cada arista depende del número de colaboraciones existentes entre ambos artistas.
+
+Si dos artistas $i$ y $j$ han colaborado $n_{ij}$ veces, el coste asociado a la arista se define como:
+
+$c_{ij}=\frac{1}{n_{ij}}$
+
+De esta forma, cuanto mayor sea el número de colaboraciones compartidas, menor será la distancia entre ambos artistas.
+
+#### Problema a resolver
+
+Dados dos artistas cualesquiera, se busca el camino de coste mínimo que los conecta dentro de la red.
+
+La distancia entre dos artistas se obtiene sumando los costes de las aristas que forman el camino seleccionado:
+
+$$\displaystyle d(i, j) = \min \sum_{(u,v) \in P} c_{uv}$$
+
+donde $P$ representa cualquier camino válido entre los artistas $i$ y $j$.
+
+#### Interpretación
+
+Un valor pequeño de distancia indica que dos artistas pertenecen a entornos musicales muy conectados, ya sea porque han colaborado directamente o porque están unidos por cadenas cortas de colaboraciones frecuentes.
+
+El resultado de este modelo es una medida cuantitativa de proximidad entre artistas que posteriormente será utilizada para generar recomendaciones de nuevos duetos.
+
+#### Implementación en Python
+
+A partir de las colaboraciones obtenidas durante la fase de preparación de datos se construye un grafo no dirigido. Cada nodo representa un artista y cada arista una colaboración existente.
+
+```{python}
+G = nx.Graph()
+
+for (a, b), n_colab in colaboraciones.items():
+
+    G.add_edge(
+        a,
+        b,
+        weight=1/n_colab,
+        collaborations=n_colab
+    )
+
+print("Número de artistas:", G.number_of_nodes())
+print("Número de colaboraciones:", G.number_of_edges())
+```
+Una vez construido el grafo, el cálculo de distancias se realiza mediante el algoritmo de Dijkstra. Para ello se define una función general que permite obtener las distancias mínimas desde cualquier artista origen hacia el resto de artistas de la red.
+```{python} 
+def calcular_distancias(origen): 
+  return nx.single_source_dijkstra_path_length( 
+    G, 
+    origen, 
+    weight="weight"
+  )
+```
+
+#### Resultados obtenidos
+
+Para ilustrar el funcionamiento del Modelo 1 se aplica el algoritmo de Dijkstra tomando como origen el artista Bad Bunny. De esta forma se obtienen los artistas más cercanos dentro de la red de colaboraciones.
+
+```{python}
+artista = "Bad Bunny"
+
+distancias = calcular_distancias(artista)
+
+cercanos = sorted(
+    distancias.items(),
+    key=lambda x: x[1]
+)[1:11]
+
+pd.DataFrame(
+    cercanos,
+    columns=["Artista", "Distancia"]
+)
+```
+Los resultados muestran que los artistas más cercanos a Bad Bunny dentro de la red de colaboraciones son J Balvin, Jhayco y Daddy Yankee. Esto indica que existen múltiples caminos de colaboración frecuentes que conectan a estos artistas, produciendo distancias muy reducidas dentro del grafo.
+
+### Modelo 2: Selección óptima de duetos mediante emparejamiento
+
+Una vez calculadas las distancias entre artistas, el segundo modelo se encarga de seleccionar las parejas que formarán los nuevos duetos.
+
+#### Construcción del grafo
+
+Se define un nuevo grafo no dirigido $G′=(V′,E′)$:
+
+- Los nodos representan los artistas candidatos.
+
+- Se crea una arista entre dos artistas únicamente si:
+
+  - no han colaborado anteriormente;
+
+  - su distancia calculada en el Modelo 1 es suficientemente pequeña.
+
+Cada arista representa, por tanto, un posible nuevo dueto.
+
+#### Peso de las aristas
+
+A cada posible pareja se le asigna una puntuación $w_{ij}$ que refleja el interés potencial de la colaboración.
+
+Esta puntuación puede construirse a partir de diversos factores, como:
+
+- la cercanía obtenida en el Modelo 1;
+
+- la popularidad de los artistas;
+
+- la similitud de características musicales;
+
+- la complementariedad entre géneros.
+
+Cuanto mayor sea el valor de $w_{ij}$, más recomendable se considera el dueto.
+
+#### Restricciones
+
+Cada artista puede participar como máximo en una única pareja:
+
+$$
+\sum_{j} x_{ij} \leq 1 \qquad \forall i
+$$ donde:
+
+$$
+x_{ij} = \begin{cases} 
+1 & \text{si se selecciona el dueto } (i, j) \\ 
+0 & \text{en otro caso} 
+\end{cases}
+$$
+
+#### Función objetivo
+
+El objetivo consiste en maximizar la suma de las puntuaciones de las parejas seleccionadas:
+
+$$
+\max \sum_{(i,j) \in E'} w_{ij} x_{ij}
+$$
+
+Este problema corresponde a un problema de emparejamiento máximo ponderado (*Maximum Weight Matching*).
+
+#### Interpretación
+
+Mientras que el Modelo 1 únicamente mide la cercanía entre artistas, el Modelo 2 decide qué parejas deben seleccionarse para maximizar la calidad global de las recomendaciones.
+
+El resultado final es un conjunto de duetos en el que ningún artista aparece más de una vez y cuya puntuación total es máxima.
+
+### Relación entre ambos modelos
+
+Los dos modelos se ejecutan de forma secuencial:
+
+1.  El Modelo 1 calcula las distancias entre artistas dentro de la red de colaboraciones.
+
+2.  El Modelo 2 utiliza dichas distancias para construir el conjunto de duetos candidatos.
+
+3.  Finalmente, se selecciona el emparejamiento que maximiza la calidad global de las recomendaciones.
+
+Por tanto, el primer modelo realiza el análisis estructural de la red, mientras que el segundo lleva a cabo la optimización de las decisiones finales.
