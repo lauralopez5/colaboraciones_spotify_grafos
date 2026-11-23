@@ -2444,7 +2444,7 @@ window.Quarto = {
 </section>
 <section id="implementación" class="level3" data-number="1.4">
 <h3 data-number="1.4" class="anchored" data-anchor-id="implementación"><span class="header-section-number">1.4</span> Implementación</h3>
-<div id="71462ea8" class="cell" data-execution_count="1">
+<div id="a70600e7" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2607,7 +2607,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="38ff5786" class="cell" data-execution_count="2">
+<div id="5331014f" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>colaboraciones <span class="op">=</span> defaultdict(<span class="bu">int</span>)</span>
@@ -2666,7 +2666,7 @@ window.Quarto = {
 <section id="implementación-en-python" class="level4" data-number="2.1.4">
 <h4 data-number="2.1.4" class="anchored" data-anchor-id="implementación-en-python"><span class="header-section-number">2.1.4</span> Implementación en Python</h4>
 <p>A partir de las colaboraciones obtenidas durante la fase de preparación de datos se construye un grafo no dirigido. Cada nodo representa un artista y cada arista una colaboración existente.</p>
-<div id="3a2c06c4" class="cell" data-execution_count="3">
+<div id="1aae729d" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
@@ -2689,7 +2689,7 @@ Número de colaboraciones: 38684</code></pre>
 </div>
 </div>
 <p>Una vez construido el grafo, el cálculo de distancias se realiza mediante el algoritmo de Dijkstra. Para ello se define una función general que permite obtener las distancias mínimas desde cualquier artista origen hacia el resto de artistas de la red.</p>
-<div id="b7594bf5" class="cell" data-execution_count="4">
+<div id="2bde24b5" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcular_distancias(origen): </span>
@@ -2704,7 +2704,7 @@ Número de colaboraciones: 38684</code></pre>
 <section id="resultados-obtenidos" class="level4" data-number="2.1.5">
 <h4 data-number="2.1.5" class="anchored" data-anchor-id="resultados-obtenidos"><span class="header-section-number">2.1.5</span> Resultados obtenidos</h4>
 <p>Para ilustrar el funcionamiento del Modelo 1 se aplica el algoritmo de Dijkstra tomando como origen el artista Bad Bunny. De esta forma se obtienen los artistas más cercanos dentro de la red de colaboraciones.</p>
-<div id="b2e9e06b" class="cell" data-execution_count="5">
+<div id="98ca8be2" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>artista <span class="op">=</span> <span class="st">&quot;Bad Bunny&quot;</span></span>
@@ -2846,6 +2846,316 @@ x_{ij} = \begin{cases}
 <h4 data-number="2.2.5" class="anchored" data-anchor-id="interpretación-1"><span class="header-section-number">2.2.5</span> Interpretación</h4>
 <p>Mientras que el Modelo 1 únicamente mide la cercanía entre artistas, el Modelo 2 decide qué parejas deben seleccionarse para maximizar la calidad global de las recomendaciones.</p>
 <p>El resultado final es un conjunto de duetos en el que ningún artista aparece más de una vez y cuya puntuación total es máxima.</p>
+</section>
+<section id="implementación-en-python-1" class="level4" data-number="2.2.6">
+<h4 data-number="2.2.6" class="anchored" data-anchor-id="implementación-en-python-1"><span class="header-section-number">2.2.6</span> Implementación en Python</h4>
+<p>Debido al tamaño de la red, el Modelo 2 se aplica sobre un subconjunto de artistas relevantes. Para ello se seleccionan los 100 artistas con mayor número de canciones presentes en el conjunto de datos. Esta estrategia permite trabajar con los artistas más representativos de la red y mantener un tamaño computacional manejable.</p>
+<div id="a13b89f2" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>conteo_artistas <span class="op">=</span> Counter()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> artistas <span class="kw">in</span> df[<span class="st">&quot;artists&quot;</span>].dropna():</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    lista <span class="op">=</span> [a.strip() <span class="cf">for</span> a <span class="kw">in</span> <span class="bu">str</span>(artistas).split(<span class="st">&quot;;&quot;</span>)]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> artista <span class="kw">in</span> lista:</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        conteo_artistas[artista] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>top_artistas_df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    conteo_artistas.items(),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">&quot;Artista&quot;</span>, <span class="st">&quot;Número de canciones&quot;</span>]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>top_artistas_df <span class="op">=</span> top_artistas_df.sort_values(</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    by<span class="op">=</span><span class="st">&quot;Número de canciones&quot;</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    ascending<span class="op">=</span><span class="va">False</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>top_artistas_df <span class="op">=</span> top_artistas_df.head(<span class="dv">100</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>top_artistas <span class="op">=</span> top_artistas_df[<span class="st">&quot;Artista&quot;</span>].tolist()</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Mantener solo artistas presentes en la red de colaboraciones</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>top_artistas <span class="op">=</span> [</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    artista</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> artista <span class="kw">in</span> top_artistas</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> artista <span class="kw">in</span> G.nodes()</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>top_artistas_df.head(<span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Artista</th>
+<th data-quarto-table-cell-role="th">Número de canciones</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6724</th>
+<td>J Balvin</td>
+<td>510</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">6820</th>
+<td>Bad Bunny</td>
+<td>416</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6963</th>
+<td>Daddy Yankee</td>
+<td>375</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5238</th>
+<td>Wolfgang Amadeus Mozart</td>
+<td>354</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">19592</th>
+<td>Feid</td>
+<td>348</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17136</th>
+<td>George Jones</td>
+<td>343</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6900</th>
+<td>Pritam</td>
+<td>333</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11081</th>
+<td>Arijit Singh</td>
+<td>305</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6733</th>
+<td>ILLENIUM</td>
+<td>298</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3717</th>
+<td>The Beatles</td>
+<td>280</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16934</th>
+<td>Jhayco</td>
+<td>269</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2485</th>
+<td>Ella Fitzgerald</td>
+<td>263</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1088</th>
+<td>Linkin Park</td>
+<td>253</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">6687</th>
+<td>David Guetta</td>
+<td>250</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">17137</th>
+<td>Hank Williams</td>
+<td>248</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8727</th>
+<td>Stevie Wonder</td>
+<td>239</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">11285</th>
+<td>Don Omar</td>
+<td>234</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">16961</th>
+<td>Yuvan Shankar Raja</td>
+<td>233</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12094</th>
+<td>Prateek Kuhad</td>
+<td>230</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">884</th>
+<td>KAROL G</td>
+<td>228</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="calculamos-candidatos-a-duelo" class="level5" data-number="2.2.6.1">
+<h5 data-number="2.2.6.1" class="anchored" data-anchor-id="calculamos-candidatos-a-duelo"><span class="header-section-number">2.2.6.1</span> Calculamos candidatos a duelo</h5>
+<p>A continuación se construye el grafo de candidatos del Modelo 2. Para cada artista seleccionado se calculan las distancias obtenidas mediante el Modelo 1. Se consideran únicamente parejas de artistas que todavía no han colaborado y cuya distancia en la red es suficientemente reducida.</p>
+<div id="6d3cbce8" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>G2 <span class="op">=</span> nx.Graph()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> artista <span class="kw">in</span> top_artistas:</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> artista <span class="kw">not</span> <span class="kw">in</span> G:</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    distancias <span class="op">=</span> calcular_distancias(artista)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> otro, distancia <span class="kw">in</span> distancias.items():</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> otro <span class="kw">not</span> <span class="kw">in</span> top_artistas:</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> artista <span class="op">==</span> otro:</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> G.has_edge(artista, otro):</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> distancia <span class="op">&gt;</span> <span class="fl">0.15</span>:</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        G2.add_edge(</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>            artista,</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            otro,</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>            weight<span class="op">=</span><span class="dv">1</span><span class="op">/</span>distancia</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Nodos:&quot;</span>, G2.number_of_nodes())</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Posibles duetos:&quot;</span>, G2.number_of_edges())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nodos: 26
+Posibles duetos: 80</code></pre>
+</div>
+</div>
+</section>
+<section id="obtenemos-duetos-óptimos" class="level5" data-number="2.2.6.2">
+<h5 data-number="2.2.6.2" class="anchored" data-anchor-id="obtenemos-duetos-óptimos"><span class="header-section-number">2.2.6.2</span> Obtenemos duetos óptimos</h5>
+<div id="40b14a7b" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>matching <span class="op">=</span> nx.max_weight_matching(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    G2,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    maxcardinality<span class="op">=</span><span class="va">False</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Número de duetos recomendados:&quot;</span>, <span class="bu">len</span>(matching))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Número de duetos recomendados: 12</code></pre>
+</div>
+</div>
+<div id="dc5ca40b" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>duetos <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">list</span>(matching),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">&quot;Artista 1&quot;</span>, <span class="st">&quot;Artista 2&quot;</span>]</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>duetos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Artista 1</th>
+<th data-quarto-table-cell-role="th">Artista 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Tiësto</td>
+<td>Mariah Angeliq</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Pritam</td>
+<td>A.R. Rahman</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>J Balvin</td>
+<td>Wisin &amp; Yandel</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Wolfgang Amadeus Mozart</td>
+<td>Giuseppe Verdi</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Charli XCX</td>
+<td>KAROL G</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>Feid</td>
+<td>Daddy Yankee</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Marshmello</td>
+<td>Sean Paul</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Clean Bandit</td>
+<td>David Guetta</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>Justin Bieber</td>
+<td>Ozuna</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>Robin Schulz</td>
+<td>Becky Hill</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>DJ Snake</td>
+<td>Jhayco</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>Anuel AA</td>
+<td>Bad Bunny</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
 </section>
 </section>
 <section id="relación-entre-ambos-modelos" class="level3" data-number="2.3">
