@@ -17,6 +17,9 @@ execute:
   message: false
 ---
 
+## Enunciado del problema  
+Una discográfica musical quiere prepara un álbum formado por 
+
 ## Preparación de los datos
 
 El conjunto de datos empleado contiene aproximadamente 114.000 canciones obtenidas de Spotify. Para construir la red de colaboraciones fue necesario realizar un proceso previo de limpieza y transformación de los datos.
