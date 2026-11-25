@@ -16,9 +16,23 @@ execute:
   warning: false
   message: false
 ---
-
 ## Enunciado del problema  
-Una discográfica musical quiere prepara un álbum formado por 
+Somos una discográfica musical que quiere preparar un álbum formado por dúos inéditos. Contamos con un catálogo de canciones que indica que artistas participaron en cada tema, y recoge datos sobre su popularidad, estilo y características sonoras.
+
+Queremos proponer parejas que nunca hayan grabado juntos que se muevan en círculos cercanos. Además, buscamos que la pareja sea prometedora desde el punto de vista musical: que sus sonidos sean compatibles y que procedan de estilos distintos para aportar versaatilidad al álbum. 
+
+Por motivos de agenda, cada artista solo puede participar en un dueto, por ello nos limitaremos a los (?? fijar un número) artistas más populares del catálogo.
+
+¿Qué parejas deberíamos proponer para que el conjunto del álbum sea lo más atractivo posible?
+
+## Datos utilizados
+Hemos elegido el dataset “Spotify Tracks Dataset | Audio Features” publicado en Kaggle [^1]. El dataset contiene información sobre canciones de Spotify, los artistas participantes, la popularidad, el género y diversas características de audio. Según la descripción del dataset, la información se recopiló mediante la API de Spotify.  
+ 
+[^1]: Reddy, S. C. (s. f.). Spotify Tracks Dataset | Audio Features. Kaggle. Disponible en: https://www.kaggle.com/datasets/saichaitanyareddyai/spotify-tracks-dataset-audio-features
+
+## Diferencias con un problema de transporte o distribución
+
+Nuestro caso no es un problema de transporte o distribución, ya que no modelamos el traslado ni el reparto de productos entre puntos de origen y destino, no hay nada que circule, solo se decide quién se empareja con quién, con la condición de que cada artista participe como máximo en un dúo. La red de colaboraciones tampoco es bipartita, ya que contiene ciclos impares, por lo que el emparejamiento lo plantearemos en un grafo general. Necesitamos dos modelos porque responden a preguntas distintas: los caminos mínimos, calculados con Dijkstra, miden la cercanía entre artistas, lo que permite determinar qué parejas inéditas son elegibles y puntuar su viabilidad. Después, el emparejamiento de máximo peso selecciona el conjunto de parejas compatibles que maximiza la puntuación total. Así, el primer modelo evalúa cada posible pareja y el segundo tiene en cuenta que las elecciones compiten por los mismos artistas.
 
 ## Preparación de los datos
 
