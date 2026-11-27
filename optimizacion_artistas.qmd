@@ -17,9 +17,6 @@ execute:
   message: false
 ---
 
-## Enunciado del problema
-
-Una discográfica musical quiere prepara un álbum formado por
 ## Enunciado del problema  
 Somos una discográfica musical que quiere preparar un álbum formado por dúos inéditos. Contamos con un catálogo de canciones que indica que artistas participaron en cada tema, y recoge datos sobre su popularidad, estilo y características sonoras.
 
@@ -42,9 +39,18 @@ Nuestro caso no es un problema de transporte o distribución, ya que no modelamo
 
 El conjunto de datos empleado contiene aproximadamente 114.000 canciones obtenidas de Spotify. Para construir la red de colaboraciones fue necesario realizar un proceso previo de limpieza y transformación de los datos.
 
+### Eliminación canciones duplicadas
+....
+
 ### Selección de variables
 
 De todas las variables disponibles en el conjunto de datos se utilizó principalmente la columna 'artists', que identifica los artistas participantes en cada canción.
+
+### Selección de artistas
+
+El conjunto de datos contiene miles de artistas diferentes. Con el objetivo de obtener una red representativa y computacionalmente manejable, se seleccionaron los 300 artistas con mayor número de apariciones en las canciones del dataset.
+
+A partir de este momento, todos los análisis y modelos desarrollados en el trabajo se realizan exclusivamente sobre este subconjunto de artistas.
 
 ### Tratamientro de colaboraciones
 
@@ -85,9 +91,47 @@ import pandas as pd
 import networkx as nx
 from itertools import combinations
 from collections import defaultdict
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("spotify-tracks-dataset-detailed.csv")
-df.head()
+# Eliminar canciones duplicadas
+# Si tienes track_id, úsalo mejor que track_name
+df = df.drop_duplicates(subset=["track_name"])
+
+print("Canciones únicas:", len(df))
+
+from collections import Counter
+
+conteo_artistas = Counter()
+
+for artistas in df["artists"].dropna():
+
+    lista = [a.strip() for a in str(artistas).split(";")]
+
+    for artista in lista:
+        conteo_artistas[artista] += 1
+
+top_artistas_df = pd.DataFrame(
+    conteo_artistas.items(),
+    columns=["Artista", "Número de canciones"]
+)
+
+top_artistas_df = top_artistas_df.sort_values(
+    by="Número de canciones",
+    ascending=False
+)
+
+top_artistas_df = top_artistas_df.head(500)
+
+# Renumerar filas desde 1 hasta 300
+top_artistas_df = top_artistas_df.reset_index(drop=True)
+top_artistas_df.index = top_artistas_df.index + 1
+
+top_artistas = set(
+    top_artistas_df["Artista"]
+)
+
+top_artistas_df.head(30)
 ```
 
 ```{python}
@@ -97,6 +141,12 @@ for artistas in df["artists"].dropna():
 
     lista = [a.strip() for a in str(artistas).split(";")]
 
+    lista = [
+        artista
+        for artista in lista
+        if artista in top_artistas
+    ]
+    
     lista = list(set(lista))
 
     if len(lista) < 2:
@@ -122,7 +172,7 @@ El primer modelo tiene como objetivo estimar qué tan próximos se encuentran do
 
 Se define un grafo no dirigido $G=(V,E)$:
 
-- Cada nodo representa un artista.
+- Cada nodo representa uno de los 300 artistas seleccionados durante la fase de preparación de los datos.
 
 - Existe una arista entre dos artistas si han participado conjuntamente en al menos una canción.
 
@@ -200,6 +250,91 @@ pd.DataFrame(
     columns=["Artista", "Distancia"]
 )
 ```
+```{python}
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as colors
+
+artista = "Bad Bunny"
+
+# vecinos directos
+vecinos = list(G.neighbors(artista))
+
+subnodos = [artista] + vecinos[:20]
+
+subG = G.subgraph(subnodos)
+
+fig, ax = plt.subplots(figsize=(14,10))
+
+pos = nx.spring_layout(subG, seed=42)
+
+# obtener número de colaboraciones
+collabs = [
+subG[u][v]["collaborations"]
+for u, v in subG.edges()
+]
+
+# normalización para colores
+norm = colors.Normalize(
+vmin=min(collabs),
+vmax=max(collabs)
+)
+
+edge_colors = [
+cm.Reds(norm(c))
+for c in collabs
+]
+
+
+nx.draw_networkx_labels(
+subG,
+pos,
+font_size=9
+)
+
+
+nx.draw_networkx_edges(
+subG,
+pos,
+edge_color=edge_colors,
+width=3
+)
+
+# barra de color
+sm = plt.cm.ScalarMappable(
+cmap=cm.Reds,
+norm=norm
+)
+
+sm.set_array([])
+
+ax = plt.gca()
+
+cbar = plt.colorbar(
+    sm,
+    ax=ax,
+    label="Número de colaboraciones"
+)
+
+# Texto explicativo de la escala
+plt.figtext(
+    0.80, 0.15,
+    "Rojo más oscuro → más colaboraciones\nRojo más claro → menos colaboraciones",
+    fontsize=10,
+    bbox=dict(
+        facecolor="white",
+        edgecolor="black",
+        alpha=0.8
+    )
+)
+
+plt.title(
+"Red de colaboraciones de Bad Bunny"
+)
+
+plt.axis("off")
+plt.show()
+```
 
 Los resultados muestran que los artistas más cercanos a Bad Bunny dentro de la red de colaboraciones son J Balvin, Jhayco y Daddy Yankee. Esto indica que existen múltiples caminos de colaboración frecuentes que conectan a estos artistas, produciendo distancias muy reducidas dentro del grafo.
 
@@ -270,44 +405,6 @@ El resultado final es un conjunto de duetos en el que ningún artista aparece m�
 
 #### Implementación en Python
 
-Debido al tamaño de la red, el Modelo 2 se aplica sobre un subconjunto de artistas relevantes. Para ello se seleccionan los 100 artistas con mayor número de canciones presentes en el conjunto de datos. Esta estrategia permite trabajar con los artistas más representativos de la red y mantener un tamaño computacional manejable.
-
-```{python}
-from collections import Counter
-
-conteo_artistas = Counter()
-
-for artistas in df["artists"].dropna():
-
-    lista = [a.strip() for a in str(artistas).split(";")]
-
-    for artista in lista:
-        conteo_artistas[artista] += 1
-
-top_artistas_df = pd.DataFrame(
-    conteo_artistas.items(),
-    columns=["Artista", "Número de canciones"]
-)
-
-top_artistas_df = top_artistas_df.sort_values(
-    by="Número de canciones",
-    ascending=False
-)
-
-top_artistas_df = top_artistas_df.head(100)
-
-top_artistas = top_artistas_df["Artista"].tolist()
-
-# Mantener solo artistas presentes en la red de colaboraciones
-top_artistas = [
-    artista
-    for artista in top_artistas
-    if artista in G.nodes()
-]
-
-top_artistas_df.head(20)
-```
-
 ##### Calculamos candidatos a duelo
 
 A continuación se construye el grafo de candidatos del Modelo 2. Para cada artista seleccionado se calculan las distancias obtenidas mediante el Modelo 1. Se consideran únicamente parejas de artistas que todavía no han colaborado y cuya distancia en la red es suficientemente reducida.
@@ -377,3 +474,23 @@ Los dos modelos se ejecutan de forma secuencial:
 3.  Finalmente, se selecciona el emparejamiento que maximiza la calidad global de las recomendaciones.
 
 Por tanto, el primer modelo realiza el análisis estructural de la red, mientras que el segundo lleva a cabo la optimización de las decisiones finales.
+
+prueba
+```{python}
+df["track_name"].duplicated().sum()
+print("Filas totales:", len(df))
+print("Canciones únicas:", df["track_name"].nunique())
+bb_jb = df[
+    df["artists"].str.contains("Bad Bunny", na=False) &
+    df["artists"].str.contains("J Balvin", na=False)
+]
+
+print("Filas:", len(bb_jb))
+print("Canciones únicas:", bb_jb["track_name"].nunique())
+bb_jb = df[
+    df["artists"].str.contains("Bad Bunny", na=False) &
+    df["artists"].str.contains("J Balvin", na=False)
+]
+
+bb_jb.groupby("track_name").size().sort_values(ascending=False)
+```
