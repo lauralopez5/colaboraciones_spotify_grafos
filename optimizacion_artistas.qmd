@@ -17,8 +17,9 @@ execute:
   message: false
 ---
 
-## Enunciado del problema  
-Una discográfica musical quiere prepara un álbum formado por 
+## Enunciado del problema
+
+Una discográfica musical quiere prepara un álbum formado por
 
 ## Preparación de los datos
 
@@ -61,6 +62,7 @@ se generan las colaboraciones:
 Posteriormente se contó el número total de colaboraciones entre cada pareja de artistas.
 
 ### Implementación
+
 ```{python}
 import pandas as pd
 import networkx as nx
@@ -70,6 +72,7 @@ from collections import defaultdict
 df = pd.read_csv("spotify-tracks-dataset-detailed.csv")
 df.head()
 ```
+
 ```{python}
 colaboraciones = defaultdict(int)
 
@@ -87,6 +90,7 @@ for artistas in df["artists"].dropna():
 
 print("Número de parejas:", len(colaboraciones))
 ```
+
 ## Modelización del problema
 
 El objetivo del proyecto es proponer nuevos duetos entre artistas a partir de las colaboraciones existentes en Spotify. Para ello, el problema se divide en dos fases complementarias.
@@ -148,8 +152,10 @@ for (a, b), n_colab in colaboraciones.items():
 print("Número de artistas:", G.number_of_nodes())
 print("Número de colaboraciones:", G.number_of_edges())
 ```
+
 Una vez construido el grafo, el cálculo de distancias se realiza mediante el algoritmo de Dijkstra. Para ello se define una función general que permite obtener las distancias mínimas desde cualquier artista origen hacia el resto de artistas de la red.
-```{python} 
+
+```{python}
 def calcular_distancias(origen): 
   return nx.single_source_dijkstra_path_length( 
     G, 
@@ -177,6 +183,7 @@ pd.DataFrame(
     columns=["Artista", "Distancia"]
 )
 ```
+
 Los resultados muestran que los artistas más cercanos a Bad Bunny dentro de la red de colaboraciones son J Balvin, Jhayco y Daddy Yankee. Esto indica que existen múltiples caminos de colaboración frecuentes que conectan a estos artistas, produciendo distancias muy reducidas dentro del grafo.
 
 ### Modelo 2: Selección óptima de duetos mediante emparejamiento
@@ -246,7 +253,7 @@ El resultado final es un conjunto de duetos en el que ningún artista aparece m�
 
 #### Implementación en Python
 
-Debido al tamaño de la red, el Modelo 2 se aplica sobre un subconjunto de artistas relevantes. Para ello se seleccionan los 100 artistas con mayor número de canciones presentes en el conjunto de datos. Esta estrategia permite trabajar con los artistas más representativos de la red y mantener un tamaño computacional manejable. 
+Debido al tamaño de la red, el Modelo 2 se aplica sobre un subconjunto de artistas relevantes. Para ello se seleccionan los 100 artistas con mayor número de canciones presentes en el conjunto de datos. Esta estrategia permite trabajar con los artistas más representativos de la red y mantener un tamaño computacional manejable.
 
 ```{python}
 from collections import Counter
@@ -283,7 +290,9 @@ top_artistas = [
 
 top_artistas_df.head(20)
 ```
-##### Calculamos candidatos a duelo 
+
+##### Calculamos candidatos a duelo
+
 A continuación se construye el grafo de candidatos del Modelo 2. Para cada artista seleccionado se calculan las distancias obtenidas mediante el Modelo 1. Se consideran únicamente parejas de artistas que todavía no han colaborado y cuya distancia en la red es suficientemente reducida.
 
 ```{python}
@@ -321,6 +330,7 @@ print("Posibles duetos:", G2.number_of_edges())
 ```
 
 ##### Obtenemos duetos óptimos
+
 ```{python}
 matching = nx.max_weight_matching(
     G2,
@@ -329,6 +339,7 @@ matching = nx.max_weight_matching(
 
 print("Número de duetos recomendados:", len(matching))
 ```
+
 ```{python}
 duetos = pd.DataFrame(
     list(matching),
@@ -337,6 +348,7 @@ duetos = pd.DataFrame(
 
 duetos
 ```
+
 ### Relación entre ambos modelos
 
 Los dos modelos se ejecutan de forma secuencial:
