@@ -2366,18 +2366,21 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preparación-de-los-datos" id="toc-preparación-de-los-datos" class="nav-link active" data-scroll-target="#preparación-de-los-datos"><span class="header-section-number">1</span> Preparación de los datos</a>
+  <li><a href="#enunciado-del-problema" id="toc-enunciado-del-problema" class="nav-link active" data-scroll-target="#enunciado-del-problema"><span class="header-section-number">1</span> Enunciado del problema</a></li>
+  <li><a href="#datos-utilizados" id="toc-datos-utilizados" class="nav-link" data-scroll-target="#datos-utilizados"><span class="header-section-number">2</span> Datos utilizados</a></li>
+  <li><a href="#diferencias-con-un-problema-de-transporte-o-distribución" id="toc-diferencias-con-un-problema-de-transporte-o-distribución" class="nav-link" data-scroll-target="#diferencias-con-un-problema-de-transporte-o-distribución"><span class="header-section-number">3</span> Diferencias con un problema de transporte o distribución</a></li>
+  <li><a href="#preparación-de-los-datos" id="toc-preparación-de-los-datos" class="nav-link" data-scroll-target="#preparación-de-los-datos"><span class="header-section-number">4</span> Preparación de los datos</a>
   <ul class="collapse">
-  <li><a href="#selección-de-variables" id="toc-selección-de-variables" class="nav-link" data-scroll-target="#selección-de-variables"><span class="header-section-number">1.1</span> Selección de variables</a></li>
-  <li><a href="#tratamientro-de-colaboraciones" id="toc-tratamientro-de-colaboraciones" class="nav-link" data-scroll-target="#tratamientro-de-colaboraciones"><span class="header-section-number">1.2</span> Tratamientro de colaboraciones</a></li>
-  <li><a href="#construcción-de-las-parejas-de-colaboración" id="toc-construcción-de-las-parejas-de-colaboración" class="nav-link" data-scroll-target="#construcción-de-las-parejas-de-colaboración"><span class="header-section-number">1.3</span> Construcción de las parejas de colaboración</a></li>
-  <li><a href="#implementación" id="toc-implementación" class="nav-link" data-scroll-target="#implementación"><span class="header-section-number">1.4</span> Implementación</a></li>
+  <li><a href="#selección-de-variables" id="toc-selección-de-variables" class="nav-link" data-scroll-target="#selección-de-variables"><span class="header-section-number">4.1</span> Selección de variables</a></li>
+  <li><a href="#tratamientro-de-colaboraciones" id="toc-tratamientro-de-colaboraciones" class="nav-link" data-scroll-target="#tratamientro-de-colaboraciones"><span class="header-section-number">4.2</span> Tratamientro de colaboraciones</a></li>
+  <li><a href="#construcción-de-las-parejas-de-colaboración" id="toc-construcción-de-las-parejas-de-colaboración" class="nav-link" data-scroll-target="#construcción-de-las-parejas-de-colaboración"><span class="header-section-number">4.3</span> Construcción de las parejas de colaboración</a></li>
+  <li><a href="#implementación" id="toc-implementación" class="nav-link" data-scroll-target="#implementación"><span class="header-section-number">4.4</span> Implementación</a></li>
   </ul></li>
-  <li><a href="#modelización-del-problema" id="toc-modelización-del-problema" class="nav-link" data-scroll-target="#modelización-del-problema"><span class="header-section-number">2</span> Modelización del problema</a>
+  <li><a href="#modelización-del-problema" id="toc-modelización-del-problema" class="nav-link" data-scroll-target="#modelización-del-problema"><span class="header-section-number">5</span> Modelización del problema</a>
   <ul class="collapse">
-  <li><a href="#modelo-1-medición-de-cercanía-mediante-caminos-mínimos" id="toc-modelo-1-medición-de-cercanía-mediante-caminos-mínimos" class="nav-link" data-scroll-target="#modelo-1-medición-de-cercanía-mediante-caminos-mínimos"><span class="header-section-number">2.1</span> Modelo 1: Medición de cercanía mediante caminos mínimos</a></li>
-  <li><a href="#modelo-2-selección-óptima-de-duetos-mediante-emparejamiento" id="toc-modelo-2-selección-óptima-de-duetos-mediante-emparejamiento" class="nav-link" data-scroll-target="#modelo-2-selección-óptima-de-duetos-mediante-emparejamiento"><span class="header-section-number">2.2</span> Modelo 2: Selección óptima de duetos mediante emparejamiento</a></li>
-  <li><a href="#relación-entre-ambos-modelos" id="toc-relación-entre-ambos-modelos" class="nav-link" data-scroll-target="#relación-entre-ambos-modelos"><span class="header-section-number">2.3</span> Relación entre ambos modelos</a></li>
+  <li><a href="#modelo-1-medición-de-cercanía-mediante-caminos-mínimos" id="toc-modelo-1-medición-de-cercanía-mediante-caminos-mínimos" class="nav-link" data-scroll-target="#modelo-1-medición-de-cercanía-mediante-caminos-mínimos"><span class="header-section-number">5.1</span> Modelo 1: Medición de cercanía mediante caminos mínimos</a></li>
+  <li><a href="#modelo-2-selección-óptima-de-duetos-mediante-emparejamiento" id="toc-modelo-2-selección-óptima-de-duetos-mediante-emparejamiento" class="nav-link" data-scroll-target="#modelo-2-selección-óptima-de-duetos-mediante-emparejamiento"><span class="header-section-number">5.2</span> Modelo 2: Selección óptima de duetos mediante emparejamiento</a></li>
+  <li><a href="#relación-entre-ambos-modelos" id="toc-relación-entre-ambos-modelos" class="nav-link" data-scroll-target="#relación-entre-ambos-modelos"><span class="header-section-number">5.3</span> Relación entre ambos modelos</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2411,15 +2414,30 @@ window.Quarto = {
 </header>
 
 
-<section id="preparación-de-los-datos" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="preparación-de-los-datos"><span class="header-section-number">1</span> Preparación de los datos</h2>
+<section id="enunciado-del-problema" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="enunciado-del-problema"><span class="header-section-number">1</span> Enunciado del problema</h2>
+<p>Somos una discográfica musical que quiere preparar un álbum formado por dúos inéditos. Contamos con un catálogo de canciones que indica que artistas participaron en cada tema, y recoge datos sobre su popularidad, estilo y características sonoras.</p>
+<p>Queremos proponer parejas que nunca hayan grabado juntos que se muevan en círculos cercanos. Además, buscamos que la pareja sea prometedora desde el punto de vista musical: que sus sonidos sean compatibles y que procedan de estilos distintos para aportar versaatilidad al álbum.</p>
+<p>Por motivos de agenda, cada artista solo puede participar en un dueto, por ello nos limitaremos a los (?? fijar un número) artistas más populares del catálogo.</p>
+<p>¿Qué parejas deberíamos proponer para que el conjunto del álbum sea lo más atractivo posible?</p>
+</section>
+<section id="datos-utilizados" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="datos-utilizados"><span class="header-section-number">2</span> Datos utilizados</h2>
+<p>Hemos elegido el dataset “Spotify Tracks Dataset | Audio Features” publicado en Kaggle <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. El dataset contiene información sobre canciones de Spotify, los artistas participantes, la popularidad, el género y diversas características de audio. Según la descripción del dataset, la información se recopiló mediante la API de Spotify.</p>
+</section>
+<section id="diferencias-con-un-problema-de-transporte-o-distribución" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="diferencias-con-un-problema-de-transporte-o-distribución"><span class="header-section-number">3</span> Diferencias con un problema de transporte o distribución</h2>
+<p>Nuestro caso no es un problema de transporte o distribución, ya que no modelamos el traslado ni el reparto de productos entre puntos de origen y destino, no hay nada que circule, solo se decide quién se empareja con quién, con la condición de que cada artista participe como máximo en un dúo. La red de colaboraciones tampoco es bipartita, ya que contiene ciclos impares, por lo que el emparejamiento lo plantearemos en un grafo general. Necesitamos dos modelos porque responden a preguntas distintas: los caminos mínimos, calculados con Dijkstra, miden la cercanía entre artistas, lo que permite determinar qué parejas inéditas son elegibles y puntuar su viabilidad. Después, el emparejamiento de máximo peso selecciona el conjunto de parejas compatibles que maximiza la puntuación total. Así, el primer modelo evalúa cada posible pareja y el segundo tiene en cuenta que las elecciones compiten por los mismos artistas.</p>
+</section>
+<section id="preparación-de-los-datos" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="preparación-de-los-datos"><span class="header-section-number">4</span> Preparación de los datos</h2>
 <p>El conjunto de datos empleado contiene aproximadamente 114.000 canciones obtenidas de Spotify. Para construir la red de colaboraciones fue necesario realizar un proceso previo de limpieza y transformación de los datos.</p>
-<section id="selección-de-variables" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="selección-de-variables"><span class="header-section-number">1.1</span> Selección de variables</h3>
+<section id="selección-de-variables" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="selección-de-variables"><span class="header-section-number">4.1</span> Selección de variables</h3>
 <p>De todas las variables disponibles en el conjunto de datos se utilizó principalmente la columna ‘artists’, que identifica los artistas participantes en cada canción.</p>
 </section>
-<section id="tratamientro-de-colaboraciones" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="tratamientro-de-colaboraciones"><span class="header-section-number">1.2</span> Tratamientro de colaboraciones</h3>
+<section id="tratamientro-de-colaboraciones" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="tratamientro-de-colaboraciones"><span class="header-section-number">4.2</span> Tratamientro de colaboraciones</h3>
 <p>Se observó que los artistas colaboradores aparecen separados mediante el carácter “;” dentro de la columna <code>artists</code>.</p>
 <p>Por ejemplo:</p>
 <ul>
@@ -2429,8 +2447,8 @@ window.Quarto = {
 </ul>
 <p>Por ello, cada registro fue dividido utilizando dicho separador para identificar correctamente a todos los artistas participantes en una canción.</p>
 </section>
-<section id="construcción-de-las-parejas-de-colaboración" class="level3" data-number="1.3">
-<h3 data-number="1.3" class="anchored" data-anchor-id="construcción-de-las-parejas-de-colaboración"><span class="header-section-number">1.3</span> Construcción de las parejas de colaboración</h3>
+<section id="construcción-de-las-parejas-de-colaboración" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="construcción-de-las-parejas-de-colaboración"><span class="header-section-number">4.3</span> Construcción de las parejas de colaboración</h3>
 <p>Una vez identificados los artistas de cada canción, se generaron todas las parejas posibles de colaboradores.</p>
 <p>Si una canción contiene los artistas:</p>
 <p>A;B;C</p>
@@ -2442,9 +2460,9 @@ window.Quarto = {
 </ul>
 <p>Posteriormente se contó el número total de colaboraciones entre cada pareja de artistas.</p>
 </section>
-<section id="implementación" class="level3" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="implementación"><span class="header-section-number">1.4</span> Implementación</h3>
-<div id="fe72138d" class="cell" data-execution_count="1">
+<section id="implementación" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="implementación"><span class="header-section-number">4.4</span> Implementación</h3>
+<div id="a5d6ca81" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2607,7 +2625,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="a46f262a" class="cell" data-execution_count="2">
+<div id="5e028c89" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>colaboraciones <span class="op">=</span> defaultdict(<span class="bu">int</span>)</span>
@@ -2632,15 +2650,15 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="modelización-del-problema" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="modelización-del-problema"><span class="header-section-number">2</span> Modelización del problema</h2>
+<section id="modelización-del-problema" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="modelización-del-problema"><span class="header-section-number">5</span> Modelización del problema</h2>
 <p>El objetivo del proyecto es proponer nuevos duetos entre artistas a partir de las colaboraciones existentes en Spotify. Para ello, el problema se divide en dos fases complementarias.</p>
 <p>En una primera fase se analiza la red de colaboraciones para medir la cercanía entre artistas. En una segunda fase se seleccionan las parejas finales de artistas que formarían los nuevos duetos. Esta división permite distinguir entre el análisis de la red existente y la optimización de las recomendaciones finales</p>
-<section id="modelo-1-medición-de-cercanía-mediante-caminos-mínimos" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="modelo-1-medición-de-cercanía-mediante-caminos-mínimos"><span class="header-section-number">2.1</span> Modelo 1: Medición de cercanía mediante caminos mínimos</h3>
+<section id="modelo-1-medición-de-cercanía-mediante-caminos-mínimos" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="modelo-1-medición-de-cercanía-mediante-caminos-mínimos"><span class="header-section-number">5.1</span> Modelo 1: Medición de cercanía mediante caminos mínimos</h3>
 <p>El primer modelo tiene como objetivo estimar qué tan próximos se encuentran dos artistas dentro de la red de colaboraciones musicales.</p>
-<section id="construcción-del-grafo" class="level4" data-number="2.1.1">
-<h4 data-number="2.1.1" class="anchored" data-anchor-id="construcción-del-grafo"><span class="header-section-number">2.1.1</span> Construcción del grafo</h4>
+<section id="construcción-del-grafo" class="level4" data-number="5.1.1">
+<h4 data-number="5.1.1" class="anchored" data-anchor-id="construcción-del-grafo"><span class="header-section-number">5.1.1</span> Construcción del grafo</h4>
 <p>Se define un grafo no dirigido <span class="math inline">\(G=(V,E)\)</span>:</p>
 <ul>
 <li><p>Cada nodo representa un artista.</p></li>
@@ -2651,22 +2669,22 @@ window.Quarto = {
 <p><span class="math inline">\(c_{ij}=\frac{1}{n_{ij}}\)</span></p>
 <p>De esta forma, cuanto mayor sea el número de colaboraciones compartidas, menor será la distancia entre ambos artistas.</p>
 </section>
-<section id="problema-a-resolver" class="level4" data-number="2.1.2">
-<h4 data-number="2.1.2" class="anchored" data-anchor-id="problema-a-resolver"><span class="header-section-number">2.1.2</span> Problema a resolver</h4>
+<section id="problema-a-resolver" class="level4" data-number="5.1.2">
+<h4 data-number="5.1.2" class="anchored" data-anchor-id="problema-a-resolver"><span class="header-section-number">5.1.2</span> Problema a resolver</h4>
 <p>Dados dos artistas cualesquiera, se busca el camino de coste mínimo que los conecta dentro de la red.</p>
 <p>La distancia entre dos artistas se obtiene sumando los costes de las aristas que forman el camino seleccionado:</p>
 <p><span class="math display">\[\displaystyle d(i, j) = \min \sum_{(u,v) \in P} c_{uv}\]</span></p>
 <p>donde <span class="math inline">\(P\)</span> representa cualquier camino válido entre los artistas <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>.</p>
 </section>
-<section id="interpretación" class="level4" data-number="2.1.3">
-<h4 data-number="2.1.3" class="anchored" data-anchor-id="interpretación"><span class="header-section-number">2.1.3</span> Interpretación</h4>
+<section id="interpretación" class="level4" data-number="5.1.3">
+<h4 data-number="5.1.3" class="anchored" data-anchor-id="interpretación"><span class="header-section-number">5.1.3</span> Interpretación</h4>
 <p>Un valor pequeño de distancia indica que dos artistas pertenecen a entornos musicales muy conectados, ya sea porque han colaborado directamente o porque están unidos por cadenas cortas de colaboraciones frecuentes.</p>
 <p>El resultado de este modelo es una medida cuantitativa de proximidad entre artistas que posteriormente será utilizada para generar recomendaciones de nuevos duetos.</p>
 </section>
-<section id="implementación-en-python" class="level4" data-number="2.1.4">
-<h4 data-number="2.1.4" class="anchored" data-anchor-id="implementación-en-python"><span class="header-section-number">2.1.4</span> Implementación en Python</h4>
+<section id="implementación-en-python" class="level4" data-number="5.1.4">
+<h4 data-number="5.1.4" class="anchored" data-anchor-id="implementación-en-python"><span class="header-section-number">5.1.4</span> Implementación en Python</h4>
 <p>A partir de las colaboraciones obtenidas durante la fase de preparación de datos se construye un grafo no dirigido. Cada nodo representa un artista y cada arista una colaboración existente.</p>
-<div id="954bc23e" class="cell" data-execution_count="3">
+<div id="70e5f741" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()</span>
@@ -2689,7 +2707,7 @@ Número de colaboraciones: 38684</code></pre>
 </div>
 </div>
 <p>Una vez construido el grafo, el cálculo de distancias se realiza mediante el algoritmo de Dijkstra. Para ello se define una función general que permite obtener las distancias mínimas desde cualquier artista origen hacia el resto de artistas de la red.</p>
-<div id="2b431ac7" class="cell" data-execution_count="4">
+<div id="2a1d92f6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcular_distancias(origen): </span>
@@ -2701,10 +2719,10 @@ Número de colaboraciones: 38684</code></pre>
 </details>
 </div>
 </section>
-<section id="resultados-obtenidos" class="level4" data-number="2.1.5">
-<h4 data-number="2.1.5" class="anchored" data-anchor-id="resultados-obtenidos"><span class="header-section-number">2.1.5</span> Resultados obtenidos</h4>
+<section id="resultados-obtenidos" class="level4" data-number="5.1.5">
+<h4 data-number="5.1.5" class="anchored" data-anchor-id="resultados-obtenidos"><span class="header-section-number">5.1.5</span> Resultados obtenidos</h4>
 <p>Para ilustrar el funcionamiento del Modelo 1 se aplica el algoritmo de Dijkstra tomando como origen el artista Bad Bunny. De esta forma se obtienen los artistas más cercanos dentro de la red de colaboraciones.</p>
-<div id="9684cc18" class="cell" data-execution_count="5">
+<div id="f7a0570e" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>artista <span class="op">=</span> <span class="st">&quot;Bad Bunny&quot;</span></span>
@@ -2793,11 +2811,11 @@ Número de colaboraciones: 38684</code></pre>
 <p>Los resultados muestran que los artistas más cercanos a Bad Bunny dentro de la red de colaboraciones son J Balvin, Jhayco y Daddy Yankee. Esto indica que existen múltiples caminos de colaboración frecuentes que conectan a estos artistas, produciendo distancias muy reducidas dentro del grafo.</p>
 </section>
 </section>
-<section id="modelo-2-selección-óptima-de-duetos-mediante-emparejamiento" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="modelo-2-selección-óptima-de-duetos-mediante-emparejamiento"><span class="header-section-number">2.2</span> Modelo 2: Selección óptima de duetos mediante emparejamiento</h3>
+<section id="modelo-2-selección-óptima-de-duetos-mediante-emparejamiento" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="modelo-2-selección-óptima-de-duetos-mediante-emparejamiento"><span class="header-section-number">5.2</span> Modelo 2: Selección óptima de duetos mediante emparejamiento</h3>
 <p>Una vez calculadas las distancias entre artistas, el segundo modelo se encarga de seleccionar las parejas que formarán los nuevos duetos.</p>
-<section id="construcción-del-grafo-1" class="level4" data-number="2.2.1">
-<h4 data-number="2.2.1" class="anchored" data-anchor-id="construcción-del-grafo-1"><span class="header-section-number">2.2.1</span> Construcción del grafo</h4>
+<section id="construcción-del-grafo-1" class="level4" data-number="5.2.1">
+<h4 data-number="5.2.1" class="anchored" data-anchor-id="construcción-del-grafo-1"><span class="header-section-number">5.2.1</span> Construcción del grafo</h4>
 <p>Se define un nuevo grafo no dirigido <span class="math inline">\(G′=(V′,E′)\)</span>:</p>
 <ul>
 <li><p>Los nodos representan los artistas candidatos.</p></li>
@@ -2809,8 +2827,8 @@ Número de colaboraciones: 38684</code></pre>
 </ul>
 <p>Cada arista representa, por tanto, un posible nuevo dueto.</p>
 </section>
-<section id="peso-de-las-aristas" class="level4" data-number="2.2.2">
-<h4 data-number="2.2.2" class="anchored" data-anchor-id="peso-de-las-aristas"><span class="header-section-number">2.2.2</span> Peso de las aristas</h4>
+<section id="peso-de-las-aristas" class="level4" data-number="5.2.2">
+<h4 data-number="5.2.2" class="anchored" data-anchor-id="peso-de-las-aristas"><span class="header-section-number">5.2.2</span> Peso de las aristas</h4>
 <p>A cada posible pareja se le asigna una puntuación <span class="math inline">\(w_{ij}\)</span> que refleja el interés potencial de la colaboración.</p>
 <p>Esta puntuación puede construirse a partir de diversos factores, como:</p>
 <ul>
@@ -2821,8 +2839,8 @@ Número de colaboraciones: 38684</code></pre>
 </ul>
 <p>Cuanto mayor sea el valor de <span class="math inline">\(w_{ij}\)</span>, más recomendable se considera el dueto.</p>
 </section>
-<section id="restricciones" class="level4" data-number="2.2.3">
-<h4 data-number="2.2.3" class="anchored" data-anchor-id="restricciones"><span class="header-section-number">2.2.3</span> Restricciones</h4>
+<section id="restricciones" class="level4" data-number="5.2.3">
+<h4 data-number="5.2.3" class="anchored" data-anchor-id="restricciones"><span class="header-section-number">5.2.3</span> Restricciones</h4>
 <p>Cada artista puede participar como máximo en una única pareja:</p>
 <p><span class="math display">\[
 \sum_{j} x_{ij} \leq 1 \qquad \forall i
@@ -2834,23 +2852,23 @@ x_{ij} = \begin{cases}
 \end{cases}
 \]</span></p>
 </section>
-<section id="función-objetivo" class="level4" data-number="2.2.4">
-<h4 data-number="2.2.4" class="anchored" data-anchor-id="función-objetivo"><span class="header-section-number">2.2.4</span> Función objetivo</h4>
+<section id="función-objetivo" class="level4" data-number="5.2.4">
+<h4 data-number="5.2.4" class="anchored" data-anchor-id="función-objetivo"><span class="header-section-number">5.2.4</span> Función objetivo</h4>
 <p>El objetivo consiste en maximizar la suma de las puntuaciones de las parejas seleccionadas:</p>
 <p><span class="math display">\[
 \max \sum_{(i,j) \in E&#39;} w_{ij} x_{ij}
 \]</span></p>
 <p>Este problema corresponde a un problema de emparejamiento máximo ponderado (<em>Maximum Weight Matching</em>).</p>
 </section>
-<section id="interpretación-1" class="level4" data-number="2.2.5">
-<h4 data-number="2.2.5" class="anchored" data-anchor-id="interpretación-1"><span class="header-section-number">2.2.5</span> Interpretación</h4>
+<section id="interpretación-1" class="level4" data-number="5.2.5">
+<h4 data-number="5.2.5" class="anchored" data-anchor-id="interpretación-1"><span class="header-section-number">5.2.5</span> Interpretación</h4>
 <p>Mientras que el Modelo 1 únicamente mide la cercanía entre artistas, el Modelo 2 decide qué parejas deben seleccionarse para maximizar la calidad global de las recomendaciones.</p>
 <p>El resultado final es un conjunto de duetos en el que ningún artista aparece más de una vez y cuya puntuación total es máxima.</p>
 </section>
-<section id="implementación-en-python-1" class="level4" data-number="2.2.6">
-<h4 data-number="2.2.6" class="anchored" data-anchor-id="implementación-en-python-1"><span class="header-section-number">2.2.6</span> Implementación en Python</h4>
+<section id="implementación-en-python-1" class="level4" data-number="5.2.6">
+<h4 data-number="5.2.6" class="anchored" data-anchor-id="implementación-en-python-1"><span class="header-section-number">5.2.6</span> Implementación en Python</h4>
 <p>Debido al tamaño de la red, el Modelo 2 se aplica sobre un subconjunto de artistas relevantes. Para ello se seleccionan los 100 artistas con mayor número de canciones presentes en el conjunto de datos. Esta estrategia permite trabajar con los artistas más representativos de la red y mantener un tamaño computacional manejable.</p>
-<div id="dd7f3b52" class="cell" data-execution_count="6">
+<div id="8e772d86" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
@@ -3006,10 +3024,10 @@ x_{ij} = \begin{cases}
 </div>
 </div>
 </div>
-<section id="calculamos-candidatos-a-duelo" class="level5" data-number="2.2.6.1">
-<h5 data-number="2.2.6.1" class="anchored" data-anchor-id="calculamos-candidatos-a-duelo"><span class="header-section-number">2.2.6.1</span> Calculamos candidatos a duelo</h5>
+<section id="calculamos-candidatos-a-duelo" class="level5" data-number="5.2.6.1">
+<h5 data-number="5.2.6.1" class="anchored" data-anchor-id="calculamos-candidatos-a-duelo"><span class="header-section-number">5.2.6.1</span> Calculamos candidatos a duelo</h5>
 <p>A continuación se construye el grafo de candidatos del Modelo 2. Para cada artista seleccionado se calculan las distancias obtenidas mediante el Modelo 1. Se consideran únicamente parejas de artistas que todavía no han colaborado y cuya distancia en la red es suficientemente reducida.</p>
-<div id="ca11b6c2" class="cell" data-execution_count="7">
+<div id="7b8a98b6" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>G2 <span class="op">=</span> nx.Graph()</span>
@@ -3050,9 +3068,9 @@ Posibles duetos: 80</code></pre>
 </div>
 </div>
 </section>
-<section id="obtenemos-duetos-óptimos" class="level5" data-number="2.2.6.2">
-<h5 data-number="2.2.6.2" class="anchored" data-anchor-id="obtenemos-duetos-óptimos"><span class="header-section-number">2.2.6.2</span> Obtenemos duetos óptimos</h5>
-<div id="253b740e" class="cell" data-execution_count="8">
+<section id="obtenemos-duetos-óptimos" class="level5" data-number="5.2.6.2">
+<h5 data-number="5.2.6.2" class="anchored" data-anchor-id="obtenemos-duetos-óptimos"><span class="header-section-number">5.2.6.2</span> Obtenemos duetos óptimos</h5>
+<div id="8f609b72" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>matching <span class="op">=</span> nx.max_weight_matching(</span>
@@ -3066,7 +3084,7 @@ Posibles duetos: 80</code></pre>
 <pre><code>Número de duetos recomendados: 12</code></pre>
 </div>
 </div>
-<div id="ef842d8b" class="cell" data-execution_count="9">
+<div id="b4295e3b" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>duetos <span class="op">=</span> pd.DataFrame(</span>
@@ -3091,63 +3109,63 @@ Posibles duetos: 80</code></pre>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
-<td>Marshmello</td>
-<td>Sean Paul</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>Wolfgang Amadeus Mozart</td>
-<td>Giuseppe Verdi</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
 <td>Feid</td>
 <td>Daddy Yankee</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>J Balvin</td>
-<td>Wisin &amp; Yandel</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
+<th data-quarto-table-cell-role="th">1</th>
 <td>Justin Bieber</td>
 <td>Ozuna</td>
 </tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5</th>
-<td>Tiësto</td>
-<td>Mariah Angeliq</td>
-</tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">6</th>
-<td>Robin Schulz</td>
-<td>Becky Hill</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">7</th>
-<td>Clean Bandit</td>
-<td>David Guetta</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">8</th>
+<th data-quarto-table-cell-role="th">2</th>
 <td>Charli XCX</td>
 <td>KAROL G</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">9</th>
-<td>DJ Snake</td>
-<td>Jhayco</td>
+<th data-quarto-table-cell-role="th">3</th>
+<td>Tiësto</td>
+<td>Mariah Angeliq</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">10</th>
+<th data-quarto-table-cell-role="th">4</th>
+<td>Clean Bandit</td>
+<td>David Guetta</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>J Balvin</td>
+<td>Wisin &amp; Yandel</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Wolfgang Amadeus Mozart</td>
+<td>Giuseppe Verdi</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Marshmello</td>
+<td>Sean Paul</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
 <td>Anuel AA</td>
 <td>Bad Bunny</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">11</th>
+<th data-quarto-table-cell-role="th">9</th>
 <td>Pritam</td>
 <td>A.R. Rahman</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>DJ Snake</td>
+<td>Jhayco</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>Robin Schulz</td>
+<td>Becky Hill</td>
 </tr>
 </tbody>
 </table>
@@ -3158,8 +3176,8 @@ Posibles duetos: 80</code></pre>
 </section>
 </section>
 </section>
-<section id="relación-entre-ambos-modelos" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="relación-entre-ambos-modelos"><span class="header-section-number">2.3</span> Relación entre ambos modelos</h3>
+<section id="relación-entre-ambos-modelos" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="relación-entre-ambos-modelos"><span class="header-section-number">5.3</span> Relación entre ambos modelos</h3>
 <p>Los dos modelos se ejecutan de forma secuencial:</p>
 <ol type="1">
 <li><p>El Modelo 1 calcula las distancias entre artistas dentro de la red de colaboraciones.</p></li>
@@ -3170,7 +3188,13 @@ Posibles duetos: 80</code></pre>
 </section>
 </section>
 
-</main>
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Reddy, S. C. (s. f.). Spotify Tracks Dataset | Audio Features. Kaggle. Disponible en: https://www.kaggle.com/datasets/saichaitanyareddyai/spotify-tracks-dataset-audio-features<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
